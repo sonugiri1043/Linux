@@ -6,11 +6,6 @@ In reality, there are two sequences of events that are required to boot a Linux 
 
 The following are the 6 high level stages of a typical Linux boot process.
 
-
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/Linux-Boot0.png). Store image on your image server and adjust path/filename if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](Linux-Boot0.png "image_tooltip")
 
 
