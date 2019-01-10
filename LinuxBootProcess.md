@@ -123,13 +123,13 @@ title CentOS (2.6.18-194.el5PAE) \
 *   So,** in simple terms GRUB just loads and executes Kernel and initrd images.**
 
 
-### GRUB must be located in the space between the boot record itself and the first partition on the disk drive. This space was left unused historically for technical reasons. The **first partition on the hard drive begins at sector 63 and with the MBR in sector 0**, that leaves 62 512-byte sectors—31,744 bytes—in which to store the **core.img file which is stage 1.5 of GRUB**. The core.img file is 25,389 Bytes so there is plenty of space available between the MBR and the first disk partition in which to store it.
+GRUB must be located in the space between the boot record itself and the first partition on the disk drive. This space was left unused historically for technical reasons. The **first partition on the hard drive begins at sector 63 and with the MBR in sector 0**, that leaves 62 512-byte sectors—31,744 bytes—in which to store the **core.img file which is stage 1.5 of GRUB**. The core.img file is 25,389 Bytes so there is plenty of space available between the MBR and the first disk partition in which to store it.
 
 
-### Because of the larger amount of code that can be accommodated for **stage 1.5**, it can **have enough code to contain a few common filesystem drivers, such as the standard EXT and other Linux filesystems, FAT, and NTFS.** This means that stage 2 of GRUB2 can be located on a standard EXT filesystem but it cannot be located on a logical volume. So **the standard location for the stage 2 files is in the /boot filesystem, specifically /boot/grub2.**
+Because of the larger amount of code that can be accommodated for **stage 1.5**, it can **have enough code to contain a few common filesystem drivers, such as the standard EXT and other Linux filesystems, FAT, and NTFS.** This means that stage 2 of GRUB2 can be located on a standard EXT filesystem but it cannot be located on a logical volume. So **the standard location for the stage 2 files is in the /boot filesystem, specifically /boot/grub2.**
 
 
-### Note that the **/boot directory must be located on a filesystem that is supported by GRUB. Not all filesystems are.** The **function of stage 1.5 is to begin execution with the filesystem drivers necessary to locate the stage 2 files in the /boot filesystem and load the needed drivers.**
+Note that the **/boot directory must be located on a filesystem that is supported by GRUB. Not all filesystems are.** The **function of stage 1.5 is to begin execution with the filesystem drivers necessary to locate the stage 2 files in the /boot filesystem and load the needed drivers.**
 
 
 # 4. Kernel
