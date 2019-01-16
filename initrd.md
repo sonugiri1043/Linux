@@ -19,18 +19,31 @@ Default Linux initrd directory structure
 
 # ls -la
 #
+
 drwxr-xr-x  10 root root	4096 May 7 02:48 .
+
 drwxr-x---  15 root root	4096 May 7 00:54 ..
+
 drwxr-xr-x  2  root root	4096 May 7 02:48 bin
+
 drwxr-xr-x  2  root root	4096 May 7 02:48 dev
+
 drwxr-xr-x  4  root root	4096 May 7 02:48 etc
+
 -rwxr-xr-x  1  root root 	812 May 7 02:48 init
+
 -rw-r--r--  1  root root 1723392 May 7 02:45 initrd-2.6.14.2.img
+
 drwxr-xr-x  2  root root	4096 May 7 02:48 lib
+
 drwxr-xr-x  2  root root	4096 May 7 02:48 loopfs
+
 drwxr-xr-x  2  root root	4096 May 7 02:48 proc
+
 lrwxrwxrwx  1  root root   	3 May 7 02:48 sbin -> bin
+
 drwxr-xr-x  2  root root	4096 May 7 02:48 sys
+
 drwxr-xr-x  2  root root	4096 May 7 02:48 sysroot
 
 The small, but necessary, set of applications are present in the ./bin directory, including nash
