@@ -13,6 +13,7 @@ The modprobe command has now replaced the function of the earlier insmod and rmm
 The lsmod command formats the information from /proc/modules to give you a current status of the modules in your Linux system. The lsmod command has no options. Listing 1 shows a partial listing of the module status on my system.
 
 ##### Listing 1. Partial listing of module status with lsmod \
+```bash
 [ian@atticf22 ~]$ lsmod  \
 Module                  Size  Used by \
 vfat                   24576  1 \
@@ -73,7 +74,7 @@ snd_usb_audio         180224  3 \
 k10temp                16384  0 \
 btrfs                 974848  0 \
 edac_core              53248  0 \
-
+```
 
 ### Using modinfo
 Use the modinfo command to get information about a module. You can give a full filename or just the module name. Listing 2 shows information for the vfat module, which handles the various forms of FAT-formatted drives.
