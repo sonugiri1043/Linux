@@ -79,7 +79,8 @@ edac_core              53248  0 \
 ### Using modinfo
 Use the modinfo command to get information about a module. You can give a full filename or just the module name. Listing 2 shows information for the vfat module, which handles the various forms of FAT-formatted drives.
 
-##### Listing 2. Information about the vfat module \
+##### Listing 2. Information about the vfat module
+```bash
 [ian@atticf22 ~]$ modinfo vfat \
 filename:       /lib/modules/4.1.6‑200.fc22.x86_64/kernel/fs/fat/vfat.ko.xz \
 author:         Gordon Chaffee \
@@ -92,6 +93,7 @@ vermagic:       4.1.6‑200.fc22.x86_64 SMP mod_unload  \
 signer:         Fedora kernel signing key \
 sig_key:        95:D8:8B:1A:62:3B:BF:DF:EF:E2:58:6B:05:ED:0A:C5:C2:88:C1:3A \
 sig_hashalgo:   sha256 \
+```
 
 The module information includes the full path to the file and information about any other names (aliases) the module might be known by. Dependencies, if any, are also listed. So, from Mod 2, you can see that the vfat module is also known as fs-vfat and depends on another module called fat. Try running modinfo with these module names.
 
@@ -100,6 +102,7 @@ You can use the -F or --field option to limit the output to a specific field. Th
 If you don't specify a full filename, modinfo searches for a module in /lib/modules/_version_/kernel, where _version_ is your kernel release as given by uname -r. In the example in Listing 2, the file vfat.ko.xz (the vfat kernel module) is found in /lib/modules/4.1.6-200.fc22.x86_64/kernel/fs/fat. Listing 3 illustrates how you might start looking for module files on your system.
 
 ##### Listing 3. Locating module files on your system \
+```bash
 [ian@atticf22 ~]$ uname ‑r \
 4.1.6‑200.fc22.x86_64 \
 [ian@atticf22 ~]$ ls /lib/modules/$(uname ‑r) \
@@ -112,16 +115,18 @@ modules.builtin      modules.networking   vdso \
 modules.builtin.bin  modules.order \
 [ian@atticf22 ~]$ ls /lib/modules/$(uname ‑r)/kernel \
 arch  crypto  drivers  fs  kernel  lib  mm  net  security  sound \
+```
 
 You can also find several plain-text files in your /lib/modules/$(uname -r) directory — including modules.dep, which lists dependencies, and modules.alias, which lists aliases. The modules.builtin file lists modules that are built in to the kernel. These include drivers needed for core functionality on most systems. If you try to use modinfo to find out about the ehci-pci driver that you might have noticed in the lsusb output, you probably won't find it because it is a built-in driver. Listing 4 illustrates this scenario.
 
 ##### Listing 4. Finding built-in drivers \
+```bash
 [ian@atticf22 ~]$ modinfo ehci‑pci \
 modinfo: ERROR: Module ehci‑pci not found. \
 [ian@atticf22 ~]$ grep ehci /lib/modules/4.1.6‑200.fc22.x86_64/modules.builtin \
 kernel/drivers/usb/host/ehci‑hcd.ko \
 kernel/drivers/usb/host/ehci‑pci.ko \
-
+```
 ### Using modprobe
 As you've seen from the output of lsmod, and modinfo, your system uses several kernel modules to drive devices.
 You have also seen that some of these modules have dependencies. So, loading the right modules in the right order
@@ -132,6 +137,7 @@ I'll use the irnet module for this example on my Ubuntu 16.04.1 LTS system. Use 
 as shown in Listing 5.
 
 ##### Listing 5. Module information for irrnet \
+```bash
 ian@ubuntu:~$ modinfo irnet \
 ian@attic‑u16:~$ modinfo irnet \
 filename:       /lib/modules/4.4.0‑59‑generic/kernel/net/irda/irnet/irnet.ko \
@@ -145,22 +151,26 @@ intree:         Y \
 vermagic:       4.4.0‑59‑generic SMP mod_unload modversions  \
 ian@attic‑u16:~$ modinfo ‑F depends irda \
 crc‑ccitt \
+```
 
 As you see, this module has a dependency on irda, which has a further dependency on crc-ccitt. By using grep to search for irda or crc-ccitt in your modules.dep file, you can see the value of modularizing driver support. Each of these drivers is used by many other drivers.
 
 If you want to manually load or unload a driver, use modprobe with the -a (or --all) option to load or insert the module and the -r option to remove or unload the module. The -n, --dry-run, or --show option shows you what will be done, without doing it. You usually use the -v option with these to see more information. Listing 6 shows what will happen if I try to load the irda module.
 
 ##### Listing 6. Dry run loading the irnet module \
+```bash
 ian@attic‑u16:~$ modprobe ‑nav irnet \
 insmod /lib/modules/4.4.0‑59‑generic/kernel/lib/crc‑ccitt.ko  \
 insmod /lib/modules/4.4.0‑59‑generic/kernel/net/irda/irda.ko  \
 insmod /lib/modules/4.4.0‑59‑generic/kernel/net/irda/irnet/irnet.ko  \
+```
 
 The output shows the insmod commands needed to load each required module with dependencies resolved.
 
 The modprobe command takes into account modules that are already loaded. In Listing 7, I first load the crc-ccitt module, then do another dry run, and finally load the irnet module. Note that the actual loading or unloading requires root authority.
 
 ##### Listing 7. Loading the irnet module \
+```bash
 ian@attic‑u16:~$ sudo modprobe ‑av crc‑ccitt \
 insmod /lib/modules/4.4.0‑59‑generic/kernel/lib/crc‑ccitt.ko  \
 ian@attic‑u16:~$ modprobe ‑nav irnet \
@@ -173,10 +183,11 @@ ian@attic‑u16:~$ lsmod | grep "ir[dn]|ccitt" \
 irnet                  24576  0 \
 irda                  196608  1 irnet \
 crc_ccitt              16384  1 irda \
-
+```
 You remove modules by using the -r option of modprobe. You cannot remove a module if it is being used. Listing 8 shows you some examples.
 
 ##### Listing 8. Unloading the irnet module \
+```bash
 ian@attic‑u16:~$ modprobe ‑nvr crc‑ccitt \
 modprobe: FATAL: Module crc_ccitt is in use. \
 ian@attic‑u16:~$ modprobe ‑nvr irnet \
@@ -187,11 +198,13 @@ ian@attic‑u16:~$ sudo modprobe ‑vr irnet \
 rmmod irnet \
 rmmod irda \
 rmmod crc_ccitt \
+```
 
 ### Module parameters
 Some modules have parameters. For example, a device driver might need to know which IRQ or I/O port to use. Listing 9 shows module information for the nsc-ircc module, which has several such parameters.
 
 ##### Listing 9. Modules with parameters \
+```bash
 ian@attic‑u16:~$ modinfo nsc‑ircc \
 filename:       /lib/modules/4.4.0‑59‑generic/kernel/drivers/net/irda/nsc‑ircc.ko \
 license:        GPL \
@@ -212,5 +225,6 @@ parm:           io:Base I/O addresses (array of int) \
 parm:           irq:IRQ lines (array of int) \
 parm:           dma:DMA channels (array of int) \
 parm:           dongle_id:Type‑id of used dongle (int) \
+```
 
 You specify module parameters on the modprobe command line when loading the module. See the man page for more details and for details on the other available modprobe options.
